@@ -12,7 +12,19 @@ export default async function handler(request, response) {
       response.status(404).json({ status: "Not found" });
       return;
     }
-    console.log("dynamic api route called");
+    console.log("get method in dynamic route");
+    response.status(200).json(location);
+    return;
+  }
+
+  if (request.method === "PUT") {
+    const location = await Location.findByIdAndUpdate(id, request.body);
+
+    if (!location) {
+      response.status(404).json({ status: "Not found" });
+      return;
+    }
+    console.log("put method in dynamic route");
     response.status(200).json(location);
     return;
   }
