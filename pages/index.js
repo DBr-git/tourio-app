@@ -17,19 +17,27 @@ const FixedLink = styled(StyledLink)`
 `;
 
 export default function Home() {
-  const { data } = useSWR("/api/places", { fallbackData: [] });
+  const { data, isLoading } = useSWR("/api/places", { fallbackData: [] });
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (!data) {
+    return;
+  }
 
   return (
     <>
       <ListContainer>
-        {data.map((place) => {
+        {data.map((location) => {
           return (
-            <li key={place.id}>
+            <li key={location._id}>
               <Card
-                name={place.name}
-                image={place.image}
-                location={place.location}
-                id={place.id}
+                name={location.name}
+                image={location.image}
+                location={location.location}
+                id={location._id}
               />
             </li>
           );
