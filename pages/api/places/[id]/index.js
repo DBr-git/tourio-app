@@ -28,4 +28,16 @@ export default async function handler(request, response) {
     response.status(200).json(location);
     return;
   }
+
+  if (request.method === "DELETE") {
+    const deletedLocation = await Location.findByIdAndDelete(id);
+
+    if (!deletedLocation) {
+      response.status(404).json({ status: "Not found" });
+      return;
+    }
+    console.log("delete method in dynamic route");
+    response.status(200).json({ status: "Location deleted" });
+    return;
+  }
 }
